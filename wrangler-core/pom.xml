@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
+
   ~ Copyright © 2017-2019 Cask Data, Inc.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -13,7 +13,9 @@
   ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
   ~ License for the specific language governing permissions and limitations under
   ~ the License.
-  -->
+  
+-->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>wrangler</artifactId>
@@ -33,23 +35,19 @@
   </repositories>
 
   <dependencies>
-
-    <!-- Internal -->
-
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.cdap.wrangler</groupId>
-      <artifactId>wrangler-api</artifactId>
-      <version>${project.version}</version>
+        <groupId>io.cdap.wrangler</groupId> <artifactId>wrangler-api</artifactId>
+        <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>io.cdap.wrangler</groupId>
       <artifactId>wrangler-proto</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.protobuf</groupId>
@@ -68,8 +66,6 @@
       <version>${cdap.version}</version>
       <scope>provided</scope>
     </dependency>
-
-    <!-- Test -->
 
     <dependency>
       <groupId>io.cdap.cdap</groupId>
@@ -105,8 +101,6 @@
       <version>2.0.2</version>
       <scope>test</scope>
     </dependency>
-
-    <!-- External -->
 
     <dependency>
       <groupId>com.github.everit-org.json-schema</groupId>
@@ -202,8 +196,6 @@
       <version>${reflections.version}</version>
     </dependency>
 
-    <!-- Apache -->
-
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi</artifactId>
@@ -256,14 +248,11 @@
       <version>${commons-math3.version}</version>
     </dependency>
 
-    <!-- UHN -->
-
     <dependency>
       <groupId>ca.uhn.hapi</groupId>
       <artifactId>hapi-base</artifactId>
       <version>${hl7.version}</version>
     </dependency>
-    <!-- These are structure JARs for HL7 v2.1 and 2.5.1 (as an example) -->
     <dependency>
       <groupId>ca.uhn.hapi</groupId>
       <artifactId>hapi-structures-v21</artifactId>
@@ -358,7 +347,19 @@
           </items>
         </configuration>
       </plugin>
-    </plugins>
+
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+              <argLine>
+                  --add-opens java.base/java.lang=ALL-UNNAMED
+                  --add-opens java.base/java.util=ALL-UNNAMED
+                  --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+              </argLine>
+          </configuration>
+      </plugin>
+      </plugins>
   </build>
 
 </project>

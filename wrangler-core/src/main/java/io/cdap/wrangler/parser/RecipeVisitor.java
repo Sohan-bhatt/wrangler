@@ -22,6 +22,7 @@ import io.cdap.wrangler.api.SourceInfo;
 import io.cdap.wrangler.api.Triplet;
 import io.cdap.wrangler.api.parser.Bool;
 import io.cdap.wrangler.api.parser.BoolList;
+import io.cdap.wrangler.api.parser.ByteSize;   ///Importing ByteSize
 import io.cdap.wrangler.api.parser.ColumnName;
 import io.cdap.wrangler.api.parser.ColumnNameList;
 import io.cdap.wrangler.api.parser.DirectiveName;
@@ -33,6 +34,7 @@ import io.cdap.wrangler.api.parser.Properties;
 import io.cdap.wrangler.api.parser.Ranges;
 import io.cdap.wrangler.api.parser.Text;
 import io.cdap.wrangler.api.parser.TextList;
+import io.cdap.wrangler.api.parser.TimeDuration;   /// ///Importing TimeDuration
 import io.cdap.wrangler.api.parser.Token;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.Interval;
@@ -43,6 +45,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
+
+
 
 /**
  * This class <code>RecipeVisitor</code> implements the visitor pattern
@@ -305,6 +311,64 @@ public final class RecipeVisitor extends DirectivesBaseVisitor<RecipeSymbol.Buil
    * This visitor methods extracts the list of strings specified. It creates a token
    * type <code>StringList</code> to be added to <code>TokenGroup</code>.
    */
+
+   @Override
+    public RecipeSymbol.Builder visitValue(DirectivesParser.ValueContext ctx) {
+        // Check which child (alternative) exists in the context ctx
+        if (ctx.String() != null) {
+            // Handle String --> Text Token
+            String text = ctx.String().getText();
+            builder.addToken(new Text(text.substring(1, text.length() - 1)));
+        } else if (ctx.Number() != null) {
+            // Handle Number --> Numeric Token
+            builder.addToken(new Numeric(new LazyNumber(ctx.Number().getText())));
+        } else if (ctx.Column() != null) {
+            // Handle Column --> ColumnName Token
+            builder.addToken(new ColumnName(ctx.Column().getText().substring(1)));
+        } else if (ctx.Bool() != null) {
+            // Handle Bool --> Bool Token
+            builder.addToken(new Bool(Boolean.valueOf(ctx.Bool().getText())));
+        } else if (ctx.BYTE_SIZE() != null) {
+            // Handle BYTE_SIZE --> ByteSize Token (NEW LOGIC)
+            String text = ctx.BYTE_SIZE().getText();
+            try {
+                builder.addToken(new ByteSize(text));
+            } catch (IllegalArgumentException e) {
+                // TODO: Implement robust error handling (e.g., throw DirectiveParseException)
+                System.err.println("Visitor Error: Failed to parse byte size token '"
+                      + text + "'. Reason: " + e.getMessage());
+                // Example: throw new DirectiveParseException(
+                //    "Invalid byte size format: " + text, getOriginalSource(ctx), e);
+            }
+        } else if (ctx.TIME_DURATION() != null) {
+            // Handle TIME_DURATION --> TimeDuration Token (NEW LOGIC)
+            String text = ctx.TIME_DURATION().getText();
+             try {
+                builder.addToken(new TimeDuration(text));
+            } catch (IllegalArgumentException e) {
+                 // TODO: Implement robust error handling (e.g., throw DirectiveParseException)
+                System.err.println("Visitor Error: Failed to parse time duration token '"
+                        + text + "'. Reason: " + e.getMessage());
+                // Example: throw new DirectiveParseException(
+                //      "Invalid time duration format: " + text, getOriginalSource(ctx), e);
+            }
+        } else {
+            // Should not happen if the grammar is correct, but good practice to handle
+             System.err.println("Visitor Error: Unknown alternative matched for 'value' rule for text: "
+                      + ctx.getText());
+             // Optionally throw an exception here too
+        }
+
+        // We handled the specific token creation, return the builder.
+        // We don't call super.visitValue() because we've explicitly handled all alternatives.
+        return builder;
+    }
+
+
+
+
+
+
   @Override
   public RecipeSymbol.Builder visitStringList(DirectivesParser.StringListContext ctx) {
     List<TerminalNode> strings = ctx.String();

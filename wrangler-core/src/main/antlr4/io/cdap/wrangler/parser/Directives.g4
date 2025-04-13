@@ -7,7 +7,7 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
+ * Unless required by applicable law or agreed to in writing, softwjava full tutorialare
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations under
@@ -140,7 +140,7 @@ numberRange
  ;
 
 value
- : String | Number | Column | Bool
+ : String | Number | Column | Bool | BYTE_SIZE |TIME_DURATION        // ADDED as value { This addition to the value rule allows the parser to recognize byte sizes and time durations as valid values in the grammar.}
  ;
 
 ecommand
@@ -257,6 +257,12 @@ Number
  : Int ('.' Digit*)?
  ;
 
+BYTE_SIZE : INTEGER (BYTE_UNIT) ;
+TIME_DURATION : INTEGER (TIME_UNIT);
+
+fragment BYTE_UNIT : ('KB' | 'MB' | 'GB' | 'TB' | 'B');     // Fragments are not tokens themselves but are used to define parts of other tokens
+fragment TIME_UNIT : ('ms' | 's' | 'm' | 'h');
+
 Identifier
  : [a-zA-Z_\-] [a-zA-Z_0-9\-]*
  ;
@@ -307,6 +313,9 @@ fragment Int
  : '-'? [1-9] Digit* [L]*
  | '0'
  ;
+
+// Adding this definition
+INTEGER : [0-9]+ ; // Defines INTEGER as one or more digits
 
 fragment Digit
  : [0-9]
