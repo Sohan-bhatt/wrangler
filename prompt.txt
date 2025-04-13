@@ -1,0 +1,43 @@
+# Prompts / AI Assistance Requests for Wrangler Enhancement Assignment
+
+This file lists the types of prompts and requests made to an AI assistant (like Google Gemini) during the development process for adding ByteSize, TimeDuration, and the AggregateStats directive to the Wrangler project.
+
+## Initial Implementation & API Usage:
+- Request for code skeleton/guidance for `ByteSize.java` and `TimeDuration.java` based on `Token.java` and `Bool.java` examples.
+- Request for specific code modifications needed for `TokenType.java`.
+- Request for guidance on the next steps after completing API updates (identifying Core Parser Updates).
+- Request for guidance on where to find the ANTLR Visitor class (`RecipeVisitor.java`) within the `wrangler-core` module structure, using screenshots for context.
+- Request for code changes needed in `RecipeVisitor.java` based on specified grammar modifications (adding `visitValue` method).
+- Request for guidance on the next steps after modifying `RecipeVisitor.java` (identifying New Directive Implementation).
+- Request for guidance on where to implement the new directive (`AggregateStats.java`), using screenshots for context.
+- Request for code skeleton/implementation for the `AggregateStats.java` directive based on assignment PDF requirements.
+- Request for confirmation/review of implemented code for `ByteSize.java`, `TimeDuration.java`, `TokenType.java`.
+- Request for confirmation/review of implemented code for `AggregateStats.java`.
+
+## Build & Error Troubleshooting:
+- Request for explanation of Maven build failure: "no POM in this directory".
+- Request for explanation of persistent "no POM" error despite user belief of being in the correct directory.
+- Request for explanation/relevance of `mvn --version` output.
+- Request for explanation of ANTLR grammar processing errors (`reference to undefined rule: INTEGER`, `implicit definition of token BYTE_TIME`, `cannot create implicit token for string literal`).
+- Request for corrected `Directives.g4` code to fix ANTLR literal errors.
+- Request for explanation of Java compilation errors ("cannot find symbol" for `ByteSize`/`TimeDuration` in `RecipeVisitor.java`).
+- Request for explanation of how Maven dependencies and Java imports work.
+- Request for specific changes needed in `wrangler-core/pom.xml` to add missing `wrangler-api` dependency. (Self-corrected: dependency was already present).
+- Request for explanation of Java compilation errors ("class, interface, or enum expected" in `RecipeVisitor.java` due to syntax error).
+- Request for explanation of Apache RAT plugin errors ("Too many files with unapproved license") and how to fix them (adding license headers, finding `tempCodeRunnerFile.java`).
+- Request for explanation of Java compilation errors ("class ... is public, should be declared in a file named...") caused by `tempCodeRunnerFile.java`.
+- Request for explanation of Checkstyle plugin errors in `wrangler-api` and `wrangler-core`.
+- Request for guidance on how to check/view detailed Checkstyle errors (using `-X` flag).
+- Request for specific code changes to fix Checkstyle errors (`LineLength`, `ImportOrder`, `NewlineAtEndOfFile`).
+- Request for explanation of Java test compilation errors ("reference to assertEquals is ambiguous").
+- Request for specific code changes to fix ambiguous `assertEquals` calls in test files.
+- Request for explanation of Maven Surefire plugin test execution errors (`InaccessibleObjectException` related to PowerMock/Java 24).
+- Request for specific changes needed in `wrangler-core/pom.xml` to configure `maven-surefire-plugin` with `--add-opens` arguments.
+- Request for explanation of remaining test execution failures/errors (JUnit assertions, `IOException`, `ObjenesisException`).
+
+## Testing & Final Steps:
+- Request for guidance on the next steps after implementing the directive (identifying Testing phase).
+- Request for guidance on where to create the new test files (`ByteSizeTest`, `TimeDurationTest`, `AggregateStatsTest`).
+* Request for code generation for the new test files based on assignment PDF requirements.
+* Request for summary of remaining tasks.
+* Request for guidance on final deliverables (PDF report contents).
