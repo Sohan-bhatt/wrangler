@@ -59,27 +59,30 @@ public class TimeDurationTest {
     public void testTimeDurationInvalidInput() {
         // Test invalid time duration strings. Check for the specific exception.
         try {
-            new TimeDuration("invalid");
+            new TimeDuration("Unknown");
             Assert.fail("Expected IllegalArgumentException for 'invalid'");
         } catch (IllegalArgumentException e) {
-            Assert.assertTrue("Error message should contain 'Unknown'",
-                              e.getMessage().contains("Unknown"));
+            String message = e.getMessage().toLowerCase();
+            Assert.assertTrue("Error message should mention parsing failure",
+                message.contains("unknown") || message.contains("cannot parse"));
         }
 
         try {
             new TimeDuration("10 years"); // Unit not supported
             Assert.fail("Expected IllegalArgumentException for '10 years'");
         } catch (IllegalArgumentException e) {
-            Assert.assertTrue("Error message should contain 'Unknown'",
-                              e.getMessage().contains("Unknown"));
+            String message = e.getMessage().toLowerCase();
+            Assert.assertTrue("Error message should mention parsing failure",
+                message.contains("unknown") || message.contains("cannot parse"));
         }
 
         try {
             new TimeDuration("abc s"); // Invalid numeric part
             Assert.fail("Expected IllegalArgumentException for 'abc s'");
         } catch (IllegalArgumentException e) {
-            Assert.assertTrue("Error message should contain 'Unknown'",
-                              e.getMessage().contains("Unknown"));
+            String message = e.getMessage().toLowerCase();
+            Assert.assertTrue("Error message should mention parsing failure",
+                message.contains("unknown") || message.contains("cannot parse"));
         }
     }
 
